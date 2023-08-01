@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 import io.swagger.configuration.LocalDateConverter;
 import io.swagger.configuration.LocalDateTimeConverter;
@@ -16,7 +17,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @SpringBootApplication
 @EnableOpenApi
 @ComponentScan(basePackages = { "io.swagger", "io.swagger.api" , "io.swagger.configuration"})
-public class Swagger2SpringBoot implements CommandLineRunner {
+public class Swagger2SpringBoot extends SpringBootServletInitializer  implements CommandLineRunner {
 
     @Override
     public void run(String... arg0) throws Exception {
@@ -28,7 +29,10 @@ public class Swagger2SpringBoot implements CommandLineRunner {
     public static void main(String[] args) throws Exception {
         new SpringApplication(Swagger2SpringBoot.class).run(args);
     }
-
+  @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(WarInitializerApplication.class);
+    }
     @Configuration
     static class CustomDateConfig extends WebMvcConfigurerAdapter {
         @Override
